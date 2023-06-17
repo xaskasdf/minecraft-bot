@@ -4,7 +4,7 @@
   "description": "Controlling a Minecraft bot using OpenAI and GPT-4",
   "type": "module",
   "scripts": {
-    "start": "cross-env DEBUG=minecraft-openai* nodemon --inspect cli.js start"
+    "start": "cross-env DEBUG=minecraft-bot* nodemon --inspect cli.js start"
   },
   "keywords": [
     "minecraft",
@@ -26,7 +26,6 @@
     "cross-env": "^7.0.3",
     "debug": "^4.3.4",
     "dotenv": "^16.3.0",
-    "isomorphic-fetch": "^3.0.0",
     "minecraft-data": "^3.36.1",
     "mineflayer": "^4.9.0",
     "mineflayer-collectblock": "^1.4.1",
