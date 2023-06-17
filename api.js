@@ -1,52 +1,66 @@
 import fetch from "isomorphic-fetch";
 import dotenv from "dotenv";
-dotenv.config();
-
 import debug from "debug";
-const error = debug("minecraft-openai.api:error");
-const log = debug("minecraft-openai.api:log");
+const { Configuration, OpenAIApi } = require("openai");
 
+const log = debug("minecraft-openai.api:log");
+const error = debug("minecraft-openai.api:error");
 const STOP_WORD = "//";
 const EOL = "\n";
+
+dotenv.config();
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 /**
  * Call the OpenAI API with the previous context and the new user input.
  *
  * @param {string} input The user's input from the Minecraft chat.
  * @param {string} context The previous context to be sent to the OpenAI API
- * @returns {Pormise<{ id: string, object: string, created: number, mode: string, choices: Array<{ text: string, index: number, logprobs: any, finish_reason: text }> }>}
+ * @returns {Promise<{ id: string, object: string, created: number, mode: string, choices: Array<{ text: string, index: number, logprobs: any, finish_reason: text }> }>}
  */
-export async function callOpenAI(input, context) {
-  const openAIkey = process.env.CODEX_API_KEY;
-  if (!openAIkey) {
-    error("ERROR: CODEX_API_KEY is required.");
-    process.exit(1);
+export async function callGPT(input, context) {
+  if (!configuration) {
+    error("ERROR: OPENAI_API_KEY is required.");
+    throw (error, "ERROR: OPENAI_API_KEY is required.");
   }
+  const openai = new OpenAIApi(configuration);
 
-  const body = {
+  const request = {
+    model: "gpt-4",
     prompt: `${context}${EOL}${STOP_WORD} ${input}${EOL}`,
-    max_tokens: 300,
     temperature: 0,
-    stop: STOP_WORD,
-    n: 1,
+    max_tokens: 150,
+    top_p: 1.0,
+    frequency_penalty: 0.5,
+    presence_penalty: 0.0,
+    stop: [STOP_WORD],
   };
 
-  log("payload %o", body);
-  log("context:\n", body.prompt);
+  log(`payload ${request}`);
+  log("context:\n", request.prompt);
 
-  const response = await fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${openAIkey}`,
-    },
-    body: JSON.stringify(body),
+  const response = await openai.createCompletion({
+    ...request
   });
 
-  if (!response.ok) {
-    error("api response failed with statis %s", response.statusText);
-    return;
-  }
+  log(`response ${response}`);
 
-  return await response.json();
+  // const response = await fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `Bearer ${openAIkey}`,
+  //   },
+  //   body: JSON.stringify(body),
+  // });
+
+  // if (!response.ok) {
+  //   error("api response failed with statis %s", response.statusText);
+  //   return;
+  // }
+
+  return await response.data;
 }

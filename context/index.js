@@ -32,7 +32,7 @@ export const context = () => {
 /**
  * Load the context from a context file.
  *
- * @param {string[]} context The context to be loaded.
+ * @param {string} context The context to be loaded.
  */
 export const loadContext = async (context) => {
   try {

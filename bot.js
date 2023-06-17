@@ -2,7 +2,7 @@ import debug from "debug";
 import minecraftData from "minecraft-data";
 import mineflayer from "mineflayer";
 import { mineflayer as mineflayerViewer } from "prismarine-viewer";
-import { callOpenAI } from "./api.js";
+import { callGPT } from "./api.js";
 import {
   context,
   updateContext,
@@ -23,10 +23,10 @@ const log = debug("minecraft-openai.bot:log");
 const error = debug("minecraft-openai.bot:error");
 
 // define global variable that will be used to craft items and interact with the world
-var mcData;
-var goToPlayerInterval;
-var watchInterval;
-var target;
+let mcData;
+let goToPlayerInterval;
+let watchInterval;
+let target;
 
 // a workaround to avoid Code from removing these variables
 goToPlayerInterval = null;
@@ -72,7 +72,7 @@ export default async function bot(host, port, username) {
     log("context: %s", previousContext);
 
     // call the OpenAI API
-    const response = await callOpenAI(input, previousContext);
+    const response = await callGPT(input, previousContext);
     target = bot.players[username].entity;
 
     if (response) {
@@ -81,9 +81,9 @@ export default async function bot(host, port, username) {
       log("choices: %o", response.choices);
 
       // extract code instructions from response
-      const code = await response.choices
-        .map((choice) => choice.text)
-        .join("\n");
+      const code = response.choices
+          .map((choice) => choice.text)
+          .join("\n");
       log("code: ", code);
 
       if (code === "") {
