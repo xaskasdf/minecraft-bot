@@ -15,7 +15,7 @@ bot.chat("I'm fine, thanks!");
 // What's your name?
 bot.chat("My name is " + bot.username);
 
-// This is the bot's current position
+// This is the bot current position
 bot.chat("My position is " + bot.entity.position);
 
 // Stop any movement
