@@ -1,6 +1,6 @@
 {
   "name": "minecraft-bot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Controlling a Minecraft bot using OpenAI and GPT-4",
   "type": "module",
   "scripts": {
@@ -16,7 +16,10 @@
     "minecraft-ai",
     "minecraft-openai"
   ],
-  "authors": ["Wassim Chegham <githu@wassim.dev>", "Samuel Cortes <samuel.cortes.rojas@gmail.com>"],
+  "authors": [
+    "Wassim Chegham <githu@wassim.dev>",
+    "Samuel Cortes <samuel.cortes.rojas@gmail.com>"
+  ],
   "license": "MIT",
   "dependencies": {
     "commander": "^9.2.0",
