@@ -1,4 +1,6 @@
-#!/usr/bin/env node
+/**
+ * /usr/bin/env node
+ */
 
 import debug from "debug";
 import bot from "./bot.js";

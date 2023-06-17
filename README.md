@@ -1,6 +1,6 @@
-# Minecraft OpenAI
+# Minecraft Bot
 
-A proof of concept for controlling a Minecraft Non-Player Characters using OpenAI and GPT-3.
+A proof of concept for making a Minecraft Non-Player Character using OpenAI's GPT-4.
 
 ![playing-minecraft-with-ai-gpt-3-no-text](https://user-images.githubusercontent.com/1699357/165494902-122c763c-7b88-4158-9685-24f0bdecb6b8.jpg)
 
@@ -8,12 +8,12 @@ A proof of concept for controlling a Minecraft Non-Player Characters using OpenA
 
 - Clone this project on your local machine.
 - [Minecraft](https://www.minecraft.net/en-us/get-minecraft) (Java Edition) version 1.17
-- Node.js version 14+
+- Node.js version 18+
 - An [OpenAI](https://openai.com) account 
 - Create a `.env` file and copy your [OpenAI API key](https://beta.openai.com/account/api-keys) and save it
 
 ```
-CODEX_API_KEY=<your_api_key>
+OPENAI_API_KEY=<your_api_key>
 ```
 
 ## Slide deck
@@ -52,7 +52,7 @@ Inside the Minecraft client, press the `T` key to open the chat box.
 
 ### Loading context
 
-There are mulptiple supported contexts:
+There are multiple supported contexts:
 
 1. `empty`: An empty context (default).
 2. `simple`: A basic context.
