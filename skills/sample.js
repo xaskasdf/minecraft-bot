@@ -1,59 +1,69 @@
-import pkg from 'mineflayer-pathfinder';
-const { goals } = pkg;
+// import { Player } from "minecraft-player";
+// import { Item } from "prismarine-item";
+// import mineflayer from "mineflayer";
+// import { pathfinder, Movements } from "mineflayer-pathfinder";
+import { pathfinder } from "mineflayer-pathfinder";
 
-export async function watchPlayer(target, bot) {
-  await bot.lookAt(target.position.offset(0, target.height, 0));
+import bot from "../bot";
+
+const mcData = require('minecraft-data')(bot.version);
+
+// Watch a player
+export async function watchPlayer(bot, playerName) {
+  const target = bot.players[playerName];
+  if (target && target.entity) {
+    bot.chat(`I am watching ${target.displayName}`);
+    bot.lookAt(target.entity.position.offset(0, target.entity.height, 0));
+  } else {
+    bot.chat(`Cannot find ${playerName}`);
+  }
 }
 
-export async function goToPlayer(bot, range, target) {
-  await bot.pathfinder.setGoal(new goals.GoalFollow(target, range));
+// Go to a player
+export async function goToPlayer(bot, playerName) {
+  const target = bot.players[playerName];
+  if (target && target.entity) {
+    bot.chat(`Going to ${target.displayName}`);
+    bot.pathfinder.setGoal(new pathfinder.goals.GoalFollow(target.entity, 1));
+  } else {
+    bot.chat(`Cannot find ${playerName}`);
+  }
 }
 
-export async function giveToPlayer (bot, name, target, amount = 1) {
-  await goToPlayer(bot, 2, target);
-  bot.once('goal_reached', () => {
-    const items = bot.inventory.items();
-    const item = items.filter(item => item.name === name)[0];
-    if (!item) {
-      bot.chat(`I have no ${ name }`);
-      return false;
-    } else if (amount) {
-      bot.toss(item.type, null, amount);
-      bot.chat("Here you go!");
-    }
+// Mine a block
+export async function mineBlock(bot, blockType) {
+  const block = bot.findBlock({
+    matching: mcData.blocksByName[blockType].id,
+    maxDistance: 64,
   });
+  if (block) {
+    bot.chat("I am mining a block");
+    await bot.dig(block);
+    bot.chat(`Block ${block.toString()} collected`);
+  } else {
+    bot.chat("I can't find that block nearby");
+  }
 }
 
-export async function mineBlock (bot, type, mcData, count = 1) {
-  const blockType = mcData.blocksByName[type];
-  if (!blockType) {
-    bot.chat(`Unknown block type: ${type}`);
-    return;
-  }
-
-  const blocks = bot.findBlocks({
-    matching: blockType.id,
-    maxDistance: 128,
-    count: count
-  });
-
-  if (blocks.length === 0) {
-    bot.chat("I don't see that block nearby.");
-    return;
-  }
-
-  const targets = [];
-  for (let i = 0; i < count; i++) {
-    targets.push(bot.blockAt(blocks[i]));
-  }
-
-  bot.chat(`I found ${targets.length} ${type} blocks`);
-
-  try {
-    await bot.collectBlock.collect(targets);
-    bot.chat('Done');
-
-  } catch (err) {
-    bot.chat(err.message);
+// Give an item to a player
+export async function giveToPlayer(bot, playerName, item, amount = 1) {
+  const target = bot.players[playerName];
+  if (target && target.entity) {
+    bot.chat(`Giving ${item} to ${target.displayName}`);
+    // You'll need to implement this function to actually give the item.
+    await goToPlayer(bot, 2, target);
+    bot.once('goal_reached', () => {
+      const items = bot.inventory.items();
+      const item = items.filter(item => item.name === name)[0];
+      if (!item) {
+        bot.chat(`I have no ${ name }`);
+        return false;
+      } else if (amount) {
+        bot.toss(item.type, null, amount);
+        bot.chat("Here you go!");
+      }
+    });
+  } else {
+    bot.chat(`Cannot find ${playerName}`);
   }
 }

@@ -2,9 +2,10 @@
  * /usr/bin/env node
  */
 
-import bot from "./bot";
 import debug from "debug";
 import { program } from "commander";
+
+import bot from "./bot";
 
 const log = debug("minecraft-openai.cli:log");
 const error = debug("minecraft-openai.cli:error");
