@@ -6,6 +6,22 @@ const warn = debug("minecraft-openai.context:warn");
 let currentContext = empty;
 
 /**
+ * Function to get the current context
+ */
+export const getContext = () => {
+    return currentContext;
+}
+
+/**
+ * Function to set the current context
+ *
+ * @param {string} context The bot context used in the actions.
+ */
+export const setContext = (context) => {
+    currentContext = context;
+}
+
+/**
  * Update the context with the latest user's input.
  *
  * @param {string} input The user's input from the Minecraft chat.
