@@ -18,6 +18,7 @@ dotenv.config();
 
 const configuration = new openai.Configuration({
   apiKey: process.env.OPENAI_API_KEY,
+  organization: process.env.ORGANIZATION_ID
 });
 
 // Check if OPENAI_API_KEY is present

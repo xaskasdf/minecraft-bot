@@ -14,10 +14,10 @@ const log = debug("minecraft-bot.bot:log");
 const error = debug("minecraft-bot.bot:error");
 
 // Define global variables
-let mcData = null;
-let goToPlayerInterval = null;
-let watchInterval = null;
-let target = null;
+let mcData;
+let target;
+let goToPlayerInterval;
+let watchInterval;
 
 // Export the bot function
 export default async function bot(host, port, username) {
@@ -67,7 +67,7 @@ export default async function bot(host, port, username) {
     if (response) {
       // Log the OpenAI response
       log("request: %s", response.id);
-      log("codex: %s", response.model);
+      log("model: %s", response.model);
       log("choices: %o", response.choices);
 
       // Extract code instructions from response
@@ -76,7 +76,13 @@ export default async function bot(host, port, username) {
 
       // If no code was received, inform the user
       if (code === "") {
-        bot.chat(`I am sorry, I don't understand.`);
+        if (response.choices[0].message.content){
+          bot.chat(response.choices[0].message.content);
+        }
+        else {
+          // bot.chat(`I am sorry, I didn't understand.`);
+          bot.chat(`SYSTEM: Lo siento, no entendí.`);
+        }
         return;
       }
 
@@ -98,7 +104,7 @@ export default async function bot(host, port, username) {
         // Note: we only update context if the code is valid
         updateContext(input, code);
       } catch (err) {
-        error("error: %s", err.message);
+        error(`error: ${err.message}`);
         bot.chat(`error: ${err.message}`);
       }
     } else {
