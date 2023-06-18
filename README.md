@@ -2,23 +2,17 @@
 
 A proof of concept for making a Minecraft Non-Player Character using OpenAI's GPT-4.
 
-![playing-minecraft-with-ai-gpt-3-no-text](https://user-images.githubusercontent.com/1699357/165494902-122c763c-7b88-4158-9685-24f0bdecb6b8.jpg)
-
 ## Requirements
 
 - Clone this project on your local machine.
-- [Minecraft](https://www.minecraft.net/en-us/get-minecraft) (Java Edition) version 1.17
+- [Minecraft](https://www.minecraft.net/en-us/get-minecraft) (Java Edition) version 1.19 (any above 1.14 really. Only tested on 19)
 - Node.js version 18+
 - An [OpenAI](https://openai.com) account 
-- Create a `.env` file and copy your [OpenAI API key](https://beta.openai.com/account/api-keys) and save it
+- Create a `.env` file and copy your [OpenAI API key](https://platform.openai.com/account/api-keys) and save it
 
 ```
 OPENAI_API_KEY=<your_api_key>
 ```
-
-## Slide deck
-
-https://slides.com/wassimchegham/playing-minecraft-artificial-intelligence-open-ai-gpt-3-javascript
 
 ## How to use
 
@@ -80,4 +74,3 @@ To get the IP address of your host computer, run the following command:
 
 ```
 wsl.exe hostname -I
-```	

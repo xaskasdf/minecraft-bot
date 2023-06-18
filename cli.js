@@ -5,10 +5,10 @@
 import debug from "debug";
 import { program } from "commander";
 
-import bot from "./bot";
+import bot from "./bot.js";
 
-const log = debug("minecraft-openai.cli:log");
-const error = debug("minecraft-openai.cli:error");
+const log = debug("minecraft-bot.cli:log");
+const error = debug("minecraft-bot.cli:error");
 
 program
   .name("minecraft-bot")

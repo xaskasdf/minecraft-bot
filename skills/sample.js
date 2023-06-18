@@ -3,10 +3,11 @@
 // import mineflayer from "mineflayer";
 // import { pathfinder, Movements } from "mineflayer-pathfinder";
 import { pathfinder } from "mineflayer-pathfinder";
+import mcData from "minecraft-data";
 
-import bot from "../bot";
+import bot from "../bot.js";
 
-const mcData = require('minecraft-data')(bot.version);
+const botMcData = mcData(bot.version);
 
 // Watch a player
 export async function watchPlayer(bot, playerName) {
@@ -33,7 +34,7 @@ export async function goToPlayer(bot, playerName) {
 // Mine a block
 export async function mineBlock(bot, blockType) {
   const block = bot.findBlock({
-    matching: mcData.blocksByName[blockType].id,
+    matching: botMcData.blocksByName[blockType].id,
     maxDistance: 64,
   });
   if (block) {

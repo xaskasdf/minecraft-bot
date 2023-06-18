@@ -10,8 +10,8 @@ import { context, updateContext, loadContext, clearContext } from "./context/ind
 import { watchPlayer, goToPlayer, mineBlock, giveToPlayer } from "./skills/sample.js";
 
 // Define debug loggers
-const log = debug("minecraft-openai.bot:log");
-const error = debug("minecraft-openai.bot:error");
+const log = debug("minecraft-bot.bot:log");
+const error = debug("minecraft-bot.bot:error");
 
 // Define global variables
 let mcData = null;
@@ -23,7 +23,7 @@ let target = null;
 export default async function bot(host, port, username) {
   // Create the bot
   const bot = mineflayer.createBot({
-    username: username || "OpenAI",
+    username: username || "GPT",
     host: host || "localhost",
     port,
     verbose: true,

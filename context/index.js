@@ -2,7 +2,7 @@ import debug from "debug";
 import empty from "./empty.js";
 
 
-const warn = debug("minecraft-openai.context:warn");
+const warn = debug("minecraft-bot.context:warn");
 let currentContext = empty;
 
 /**
